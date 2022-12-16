@@ -84,11 +84,12 @@ jobs:
     needs:
       - zip_cores
     steps:
+      - uses: actions/checkout@v2
       - uses: actions/download-artifact@v3
         with:
           name: built_zips
           path: pocket/zips
-      - run: ls zips
+      - run: ls pocket/zips
       - name: commit zips
         working_directory: pocket/zips
         run: |
