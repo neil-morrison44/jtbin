@@ -4,13 +4,14 @@ on:
   push:
     branches:
       - master
+    paths:
+      - pocket/raw
 
 jobs:
   list_cores:
     runs-on: ubuntu-latest
     outputs:
       cores: ${{ steps.generate-matrix.outputs.cores }}
-
     steps:
     - uses: actions/checkout@v2
     - id: generate-matrix
@@ -26,6 +27,8 @@ jobs:
     steps:
       - name: Echo previous outputs
         run: echo "${{ fromJSON(needs.list_cores.outputs.cores) }}"
+
+
   zip_cores:
     runs-on: ubuntu-latest
     needs:
@@ -113,6 +116,8 @@ jobs:
         with:
           name: built_zips
           path: ./pocket/${{ steps.core_name.outputs.longname }}.zip
+
+
   commit_zips:
     runs-on: ubuntu-latest
     if: ${{ always() }}
